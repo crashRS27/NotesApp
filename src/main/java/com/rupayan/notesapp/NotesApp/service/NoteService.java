@@ -49,7 +49,7 @@ public class NoteService {
 //		User user = userRepository.findById(userId)
         // 2. Build the Note entity
         Note note = new Note();
-        note.setUser(user);
+        note.setUserId(user);
         note.setTitle(request.title());
         note.setContent(request.content());
 
@@ -110,7 +110,7 @@ public class NoteService {
             
 
      // 2. Security Check: Make sure the user actually owns this note
-        if (!note.getUser().getId().toString().equalsIgnoreCase(userId)) {
+        if (!note.getUserId().toString().equalsIgnoreCase(userId)) {
             throw new RuntimeException("Unauthorized to edit this note");
         }
         // 3. Update the fields
