@@ -108,11 +108,11 @@ public class NoteService {
         Note note = noteRepository.findById(noteId)
             .orElseThrow(() -> new RuntimeException("Note not found"));
             
-        // 2. Security Check: Make sure the user actually owns this note
-        if (!note.getUser().equals(userId)) {
+
+     // 2. Security Check: Make sure the user actually owns this note
+        if (!note.getUser().getId().toString().equalsIgnoreCase(userId)) {
             throw new RuntimeException("Unauthorized to edit this note");
         }
-        
         // 3. Update the fields
         note.setTitle(request.title());
         note.setContent(request.content());
