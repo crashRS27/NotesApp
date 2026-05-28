@@ -24,6 +24,9 @@ public class Note extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+    
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(nullable = false)
     private String title;
