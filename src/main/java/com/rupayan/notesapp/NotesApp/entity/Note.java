@@ -21,10 +21,9 @@ import java.util.Set;
 @Builder
 public class Note extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    @Column(name = "user_id", insertable = false, updatable = false)
-    private String userId;    
+	@ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; 
     
 
     @Column(nullable = false)
@@ -53,8 +52,4 @@ public class Note extends BaseEntity {
         tag.getNotes().add(this);
     }
 
-	public void setUserId(User user) {
-		// TODO Auto-generated method stub
-		
-	}
 }

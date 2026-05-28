@@ -1,6 +1,9 @@
 package com.rupayan.notesapp.NotesApp.service;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class NoteService {
 
@@ -49,7 +54,7 @@ public class NoteService {
 //		User user = userRepository.findById(userId)
         // 2. Build the Note entity
         Note note = new Note();
-        note.setUserId(user);
+        note.setUser(user);
         note.setTitle(request.title());
         note.setContent(request.content());
 
@@ -103,23 +108,24 @@ public class NoteService {
         );
     }
     
-    public Note updateNote(UUID noteId, String userId, NoteRequest request) {
+    public NoteResponse updateNote(UUID noteId, String userId, NoteRequest request) {
         // 1. Find the existing note
         Note note = noteRepository.findById(noteId)
             .orElseThrow(() -> new RuntimeException("Note not found"));
             
-
-     // 2. Security Check: Make sure the user actually owns this note
-        if (!note.getUserId().toString().equalsIgnoreCase(userId)) {
+        // 2. Security Check: Make sure the user actually owns this note
+        if (!note.getUser().getId().toString().equalsIgnoreCase(userId)) {
             throw new RuntimeException("Unauthorized to edit this note");
         }
+        
         // 3. Update the fields
         note.setTitle(request.title());
         note.setContent(request.content());
         
         // Note: If you are mapping tags here, update them according to your JPA setup!
         
-        // 4. Save and return
-        return noteRepository.save(note);
+        // 4. Save and return mapped response
+        Note savedNote = noteRepository.save(note);
+        return mapToResponse(savedNote);
     }
 }
