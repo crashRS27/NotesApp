@@ -30,19 +30,20 @@ public class NoteService {
     @Transactional
     public NoteResponse createNote(UUID userId, NoteRequest request) {
         
-    	/*
-    	 * To test H2 DB
+    	
+    	
     	// 1. Verify the user exists
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-    	*/
     	
+    	/*
     	User user = userRepository.findById(userId).orElseGet(() -> {
             User dummyUser = new User();
             dummyUser.setEmail("local-" + UUID.randomUUID() + "@test.com");
             dummyUser.setPasswordHash("dummy_hash");
             return userRepository.save(dummyUser);
         });
+        */
     	
     	
 //		User user = userRepository.findById(userId)
