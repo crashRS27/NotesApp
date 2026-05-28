@@ -102,4 +102,24 @@ public class NoteService {
                 note.getCreatedAt()
         );
     }
+    
+    public Note updateNote(UUID noteId, String userId, NoteRequest request) {
+        // 1. Find the existing note
+        Note note = noteRepository.findById(noteId)
+            .orElseThrow(() -> new RuntimeException("Note not found"));
+            
+        // 2. Security Check: Make sure the user actually owns this note
+        if (!note.getUser().equals(userId)) {
+            throw new RuntimeException("Unauthorized to edit this note");
+        }
+        
+        // 3. Update the fields
+        note.setTitle(request.title());
+        note.setContent(request.content());
+        
+        // Note: If you are mapping tags here, update them according to your JPA setup!
+        
+        // 4. Save and return
+        return noteRepository.save(note);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.rupayan.notesapp.NotesApp.dto.NoteRequest;
 import com.rupayan.notesapp.NotesApp.dto.NoteResponse;
+import com.rupayan.notesapp.NotesApp.entity.Note;
 import com.rupayan.notesapp.NotesApp.service.NoteService;
 
 import java.util.List;
@@ -41,5 +42,16 @@ public class NoteController {
     public ResponseEntity<Void> deleteNote(@PathVariable UUID noteId) {
         noteService.softDeleteNote(noteId);
         return ResponseEntity.noContent().build();
+    }
+    
+    //UPDATE /api/v1/notes/{id}?userId={uuid}
+    @PutMapping("/{id}")
+    public ResponseEntity<Note> updateNote(
+            @PathVariable UUID id, // Or String, depending on your setup
+            @RequestParam String userId,
+            @RequestBody NoteRequest request) {
+        
+        Note updatedNote = noteService.updateNote(id, userId, request);
+        return ResponseEntity.ok(updatedNote);
     }
 }
