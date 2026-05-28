@@ -8,7 +8,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tags")
+@Table(
+	    name = "tags", 
+	    uniqueConstraints = {
+	        @UniqueConstraint(
+	            name = "unique_user_tag", 
+	            columnNames = {"user_id", "name"}
+	        )
+	    }
+	)
 @Getter
 @Setter
 @NoArgsConstructor
